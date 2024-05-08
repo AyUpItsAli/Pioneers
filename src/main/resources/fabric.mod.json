@@ -20,6 +20,14 @@
 		],
 		"fabric-datagen": [
 			"ayupitsali.pioneers.PioneersDataGenerator"
+		],
+		"cardinal-components": [
+			"ayupitsali.pioneers.data.ModComponents"
+		]
+	},
+	"custom": {
+		"cardinal-components": [
+			"pioneers:pioneer_data"
 		]
 	},
 	"mixins": [
