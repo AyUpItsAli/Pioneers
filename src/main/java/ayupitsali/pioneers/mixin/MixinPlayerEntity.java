@@ -31,21 +31,17 @@ public abstract class MixinPlayerEntity extends LivingEntity {
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (playerGroup.equals(LivesGroup.GREEN)) {
                         attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", Text.literal(Integer.toString(1)).formatted(Formatting.GREEN)));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", PioneerData.getLivesText(1, Formatting.GREEN)));
                     }
                 } else if (attackerGroup.equals(LivesGroup.RED)) {
                     if (playerGroup.equals(LivesGroup.GREEN) || playerGroup.equals(LivesGroup.YELLOW)) {
                         attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", Text.literal(Integer.toString(1)).formatted(Formatting.GREEN)));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", PioneerData.getLivesText(1, Formatting.GREEN)));
                     }
                 }
             }
             playerData.addLives(-1);
             sendMessage(Text.translatable("lives.lives_changed.death", playerData.getLivesDisplay()));
-            LivesGroup newGroup = playerData.getLivesGroup();
-            if (!newGroup.equals(playerGroup)) { // Group has changed
-                sendMessage(Text.translatable("lives.group_changed.death", newGroup.getDisplayName().formatted(Formatting.BOLD)));
-            }
         }
     }
 }

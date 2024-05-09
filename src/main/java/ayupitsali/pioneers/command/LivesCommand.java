@@ -59,7 +59,7 @@ public class LivesCommand {
             for (ServerPlayerEntity playerEntity : playerEntities)
                 ModComponents.PIONEER_DATA.get(playerEntity).setLives(lives);
             PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntities.iterator().next());
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", playerData.getLivesDisplay(), playerEntities.size()), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", playerEntities.size(), playerData.getLivesDisplay()), false);
             return playerEntities.size();
         }
     }

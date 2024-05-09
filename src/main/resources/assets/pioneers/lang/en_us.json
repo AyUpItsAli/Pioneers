@@ -1,10 +1,11 @@
 {
-  "commands.lives.get.success.self": "You have %s lives",
-  "commands.lives.get.success.single": "%s has %s lives",
-  "commands.lives.set.success.self": "You now have %s lives",
-  "commands.lives.set.success.single": "%s now has %s lives",
-  "commands.lives.set.success.multiple": "Set lives to %s for %s players",
-  "lives.gained_life.kill": "You gained %s lives from killing another player",
-  "lives.lives_changed.death": "You now have %s lives",
-  "lives.group_changed.death": "You are now a %s player"
+  "lives.display.single": "%s life",
+  "lives.display.multiple": "%s lives",
+  "lives.gained_life.kill": "You gained %s from killing another player",
+  "lives.lives_changed.death": "You now have %s",
+  "commands.lives.get.success.self": "You have %s",
+  "commands.lives.get.success.single": "%s has %s",
+  "commands.lives.set.success.self": "You now have %s",
+  "commands.lives.set.success.single": "%s now has %s",
+  "commands.lives.set.success.multiple": "%s players now have %s"
 }

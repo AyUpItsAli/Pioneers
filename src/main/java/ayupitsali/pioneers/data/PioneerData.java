@@ -4,6 +4,7 @@ import dev.onyxstudios.cca.api.v3.component.Component;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 public class PioneerData implements Component {
     private LivesGroup livesGroup = LivesGroup.GREEN;
@@ -34,8 +35,13 @@ public class PioneerData implements Component {
         setLives(lives + amount);
     }
 
+    public static MutableText getLivesText(int lives, Formatting livesFormatting) {
+        MutableText livesText = Text.literal(Integer.toString(lives)).formatted(livesFormatting);
+        return lives == 1 ? Text.translatable("lives.display.single", livesText) : Text.translatable("lives.display.multiple", livesText);
+    }
+
     public MutableText getLivesDisplay() {
-        return Text.literal(Integer.toString(lives)).formatted(livesGroup.getColourFormatting());
+        return getLivesText(lives, livesGroup.getColourFormatting());
     }
 
     @Override
