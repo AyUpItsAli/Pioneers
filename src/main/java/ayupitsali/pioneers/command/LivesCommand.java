@@ -27,7 +27,7 @@ public class LivesCommand {
                 executeGet(context, context.getSource().getPlayerOrThrow())
         ).then(CommandManager.argument("player", EntityArgumentType.player()).executes(context ->
                 executeGet(context, EntityArgumentType.getPlayer(context, "player"))
-        ))).then(CommandManager.literal("set").then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getTotalLives())).executes(context ->
+        ))).then(CommandManager.literal("set").then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                 executeSet(context, IntegerArgumentType.getInteger(context, "lives"), ImmutableList.of(context.getSource().getPlayerOrThrow()))
         ).then(CommandManager.argument("players", EntityArgumentType.players()).executes(context ->
                 executeSet(context, IntegerArgumentType.getInteger(context, "lives"), EntityArgumentType.getPlayers(context, "players"))
@@ -37,9 +37,9 @@ public class LivesCommand {
     public static int executeGet(CommandContext<ServerCommandSource> context, ServerPlayerEntity playerEntity) throws CommandSyntaxException {
         PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
         if (context.getSource().getPlayerOrThrow().equals(playerEntity)) {
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", playerData.getLives()), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", playerData.getLivesDisplay()), false);
         } else {
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", playerEntity.getDisplayName(), playerData.getLives()), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", playerEntity.getDisplayName(), playerData.getLivesDisplay()), false);
         }
         return 1;
     }
@@ -47,18 +47,19 @@ public class LivesCommand {
     public static int executeSet(CommandContext<ServerCommandSource> context, int lives, Collection<ServerPlayerEntity> playerEntities) throws CommandSyntaxException {
         if (playerEntities.size() == 1) {
             ServerPlayerEntity playerEntity = playerEntities.iterator().next();
-            int livesAfter = ModComponents.PIONEER_DATA.get(playerEntity).setLives(lives);
+            PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
+            playerData.setLives(lives);
             if (context.getSource().getPlayerOrThrow().equals(playerEntity)) {
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", livesAfter), false);
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", playerData.getLivesDisplay()), false);
             } else {
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", playerEntity.getDisplayName(), livesAfter), false);
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", playerEntity.getDisplayName(), playerData.getLivesDisplay()), false);
             }
             return 1;
         } else {
             for (ServerPlayerEntity playerEntity : playerEntities)
                 ModComponents.PIONEER_DATA.get(playerEntity).setLives(lives);
-            int livesAfter = ModComponents.PIONEER_DATA.get(playerEntities.iterator().next()).getLives();
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", livesAfter, playerEntities.size()), false);
+            PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntities.iterator().next());
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", playerData.getLivesDisplay(), playerEntities.size()), false);
             return playerEntities.size();
         }
     }

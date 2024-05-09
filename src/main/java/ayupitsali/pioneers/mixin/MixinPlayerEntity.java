@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,17 +31,17 @@ public abstract class MixinPlayerEntity extends LivingEntity {
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (playerGroup.equals(LivesGroup.GREEN)) {
                         attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", 1));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", Text.literal(Integer.toString(1)).formatted(Formatting.GREEN)));
                     }
                 } else if (attackerGroup.equals(LivesGroup.RED)) {
                     if (playerGroup.equals(LivesGroup.GREEN) || playerGroup.equals(LivesGroup.YELLOW)) {
                         attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", 1));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", Text.literal(Integer.toString(1)).formatted(Formatting.GREEN)));
                     }
                 }
             }
             playerData.addLives(-1);
-            sendMessage(Text.translatable("lives.lives_changed.death", playerData.getLives()));
+            sendMessage(Text.translatable("lives.lives_changed.death", playerData.getLivesDisplay()));
             LivesGroup newGroup = playerData.getLivesGroup();
             if (!newGroup.equals(playerGroup)) { // Group has changed
                 sendMessage(Text.translatable("lives.group_changed.death", newGroup.getDisplayName()));

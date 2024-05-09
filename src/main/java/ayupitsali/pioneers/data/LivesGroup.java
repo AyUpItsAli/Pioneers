@@ -5,36 +5,51 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public enum LivesGroup {
-    GREEN(3),
-    YELLOW(3),
-    RED(3),
-    GHOST(0);
+    GREEN(3, Formatting.GREEN),
+    YELLOW(3, Formatting.YELLOW),
+    RED(3, Formatting.RED),
+    GHOST(0, Formatting.GRAY);
 
     private final int lives;
+    private final Formatting colourFormatting;
 
-    LivesGroup(int lives) {
+    LivesGroup(int lives, Formatting colourFormatting) {
         this.lives = lives;
+        this.colourFormatting = colourFormatting;
     }
 
     public int getLives() {
-        return this.lives;
+        return lives;
     }
 
-    public int getTotalLives() {
+    public Formatting getColourFormatting() {
+        return colourFormatting;
+    }
+
+    public int getMaxLives() {
         return switch (this) {
-            case GREEN -> this.lives + YELLOW.getLives() + RED.getLives();
-            case YELLOW -> this.lives + RED.getLives();
-            case RED -> this.lives;
+            case GREEN -> RED.getLives() + YELLOW.getLives() + GREEN.getLives();
+            case YELLOW -> RED.getLives() + YELLOW.getLives();
+            case RED -> RED.getLives();
+            case GHOST -> 0;
+        };
+    }
+
+    public int getMinLives() {
+        return switch (this) {
+            case GREEN -> RED.getLives() + YELLOW.getLives() + 1;
+            case YELLOW -> RED.getLives() + 1;
+            case RED -> 1;
             case GHOST -> 0;
         };
     }
 
     public MutableText getDisplayName() {
         return switch (this) {
-            case GREEN -> Text.literal("Green").formatted(Formatting.GREEN);
-            case YELLOW -> Text.literal("Yellow").formatted(Formatting.YELLOW);
-            case RED -> Text.literal("Red").formatted(Formatting.RED);
-            case GHOST -> Text.literal("Ghost").formatted(Formatting.DARK_GRAY);
+            case GREEN -> Text.literal("Green").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case YELLOW -> Text.literal("Yellow").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case RED -> Text.literal("Red").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case GHOST -> Text.literal("Ghost").formatted(colourFormatting).formatted(Formatting.BOLD);
         };
     }
 }
