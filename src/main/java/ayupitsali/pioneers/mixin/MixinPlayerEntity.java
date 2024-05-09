@@ -44,7 +44,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
             sendMessage(Text.translatable("lives.lives_changed.death", playerData.getLivesDisplay()));
             LivesGroup newGroup = playerData.getLivesGroup();
             if (!newGroup.equals(playerGroup)) { // Group has changed
-                sendMessage(Text.translatable("lives.group_changed.death", newGroup.getDisplayName()));
+                sendMessage(Text.translatable("lives.group_changed.death", newGroup.getDisplayName().formatted(Formatting.BOLD)));
             }
         }
     }

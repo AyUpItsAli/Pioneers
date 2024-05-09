@@ -46,10 +46,10 @@ public enum LivesGroup {
 
     public MutableText getDisplayName() {
         return switch (this) {
-            case GREEN -> Text.literal("Green").formatted(colourFormatting).formatted(Formatting.BOLD);
-            case YELLOW -> Text.literal("Yellow").formatted(colourFormatting).formatted(Formatting.BOLD);
-            case RED -> Text.literal("Red").formatted(colourFormatting).formatted(Formatting.BOLD);
-            case GHOST -> Text.literal("Ghost").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case GREEN -> Text.literal("Green").formatted(colourFormatting);
+            case YELLOW -> Text.literal("Yellow").formatted(colourFormatting);
+            case RED -> Text.literal("Red").formatted(colourFormatting);
+            case GHOST -> Text.literal("Ghost").formatted(colourFormatting);
         };
     }
 }
