@@ -1,0 +1,10 @@
+{
+  "commands.lives.get.success.self": "You have %s lives",
+  "commands.lives.get.success.single": "%s has %s lives",
+  "commands.lives.set.success.self": "You now have %s lives",
+  "commands.lives.set.success.single": "%s now has %s lives",
+  "commands.lives.set.success.multiple": "Set lives to %s for %s players",
+  "lives.gained_life.kill": "You gained %s lives from killing another player",
+  "lives.lives_changed.death": "You now have %s lives",
+  "lives.group_changed.death": "You are now a %s player"
+}
