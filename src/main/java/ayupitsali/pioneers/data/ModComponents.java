@@ -14,6 +14,6 @@ public class ModComponents implements EntityComponentInitializer {
 
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-        registry.registerForPlayers(PIONEER_DATA, playerEntity -> new PioneerData(), RespawnCopyStrategy.ALWAYS_COPY);
+        registry.registerForPlayers(PIONEER_DATA, PioneerData::new, RespawnCopyStrategy.ALWAYS_COPY);
     }
 }

@@ -1,14 +1,21 @@
 package ayupitsali.pioneers.data;
 
-import dev.onyxstudios.cca.api.v3.component.Component;
+import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class PioneerData implements Component {
+public class PioneerData implements AutoSyncedComponent {
     private LivesGroup livesGroup = LivesGroup.GREEN;
     private int lives = livesGroup.getMaxLives();
+
+    private final PlayerEntity provider;
+
+    public PioneerData(PlayerEntity provider) {
+        this.provider = provider;
+    }
 
     public LivesGroup getLivesGroup() {
         return livesGroup;
@@ -29,6 +36,7 @@ public class PioneerData implements Component {
         } else {
             livesGroup = LivesGroup.GHOST;
         }
+        ModComponents.PIONEER_DATA.sync(this.provider);
     }
 
     public void addLives(int amount) {
