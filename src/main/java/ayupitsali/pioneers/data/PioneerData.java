@@ -1,20 +1,26 @@
 package ayupitsali.pioneers.data;
 
-import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class PioneerData implements AutoSyncedComponent {
-    private LivesGroup livesGroup = LivesGroup.GREEN;
-    private int lives = livesGroup.getMaxLives();
+public class PioneerData {
+    private final PioneersDataComponent component;
+    private LivesGroup livesGroup;
+    private int lives;
 
-    private final PlayerEntity provider;
+    public PioneerData(PioneersDataComponent component, LivesGroup livesGroup, int lives) {
+        this.component = component;
+        this.livesGroup = livesGroup;
+        this.lives = lives;
+    }
 
-    public PioneerData(PlayerEntity provider) {
-        this.provider = provider;
+    public PioneerData(PioneersDataComponent component, LivesGroup livesGroup) {
+        this(component, livesGroup, livesGroup.getMaxLives());
+    }
+
+    public PioneerData(PioneersDataComponent component) {
+        this(component, LivesGroup.GREEN);
     }
 
     public LivesGroup getLivesGroup() {
@@ -36,31 +42,19 @@ public class PioneerData implements AutoSyncedComponent {
         } else {
             livesGroup = LivesGroup.GHOST;
         }
-        ModComponents.PIONEER_DATA.sync(this.provider);
+        ModComponents.PIONEERS_DATA.sync(this.component.getProvider());
     }
 
     public void addLives(int amount) {
         setLives(lives + amount);
     }
 
+    public MutableText getLivesDisplay() {
+        return PioneerData.getLivesText(lives, livesGroup.getColourFormatting());
+    }
+
     public static MutableText getLivesText(int lives, Formatting livesFormatting) {
         MutableText livesText = Text.literal(Integer.toString(lives)).formatted(livesFormatting);
         return lives == 1 ? Text.translatable("lives.display.single", new Object[]{livesText}) : Text.translatable("lives.display.multiple", new Object[]{livesText});
-    }
-
-    public MutableText getLivesDisplay() {
-        return getLivesText(lives, livesGroup.getColourFormatting());
-    }
-
-    @Override
-    public void readFromNbt(NbtCompound tag) {
-        lives = tag.getInt("lives");
-        livesGroup = LivesGroup.valueOf(tag.getString("livesGroup"));
-    }
-
-    @Override
-    public void writeToNbt(NbtCompound tag) {
-        tag.putInt("lives", lives);
-        tag.putString("livesGroup", livesGroup.toString());
     }
 }

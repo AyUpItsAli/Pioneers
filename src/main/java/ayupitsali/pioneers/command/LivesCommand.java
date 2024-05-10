@@ -1,8 +1,8 @@
 package ayupitsali.pioneers.command;
 
 import ayupitsali.pioneers.data.LivesGroup;
-import ayupitsali.pioneers.data.ModComponents;
 import ayupitsali.pioneers.data.PioneerData;
+import ayupitsali.pioneers.data.PioneersDataComponent;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -32,29 +32,29 @@ public class LivesCommand {
     }
 
     public static int executeGet(CommandContext<ServerCommandSource> context, ServerPlayerEntity playerEntity) throws CommandSyntaxException {
-        PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
+        PioneerData pioneerData = PioneersDataComponent.getPioneerData(playerEntity);
         if (context.getSource().getPlayerOrThrow().equals(playerEntity))
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", new Object[]{playerData.getLivesDisplay()}), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", new Object[]{pioneerData.getLivesDisplay()}), false);
         else
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", new Object[]{playerEntity.getDisplayName(), playerData.getLivesDisplay()}), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", new Object[]{playerEntity.getDisplayName(), pioneerData.getLivesDisplay()}), false);
         return 1;
     }
 
     public static int executeSet(CommandContext<ServerCommandSource> context, int lives, Collection<ServerPlayerEntity> playerEntities) throws CommandSyntaxException {
         if (playerEntities.size() == 1) {
             ServerPlayerEntity playerEntity = playerEntities.iterator().next();
-            PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
-            playerData.setLives(lives);
+            PioneerData pioneerData = PioneersDataComponent.getPioneerData(playerEntity);
+            pioneerData.setLives(lives);
             if (context.getSource().getPlayerOrThrow().equals(playerEntity))
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", new Object[]{playerData.getLivesDisplay()}), false);
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", new Object[]{pioneerData.getLivesDisplay()}), false);
             else
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", new Object[]{playerEntity.getDisplayName(), playerData.getLivesDisplay()}), false);
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", new Object[]{playerEntity.getDisplayName(), pioneerData.getLivesDisplay()}), false);
             return 1;
         } else {
             for (ServerPlayerEntity playerEntity : playerEntities)
-                ModComponents.PIONEER_DATA.get(playerEntity).setLives(lives);
-            PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntities.iterator().next());
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", new Object[]{playerEntities.size(), playerData.getLivesDisplay()}), false);
+                PioneersDataComponent.getPioneerData(playerEntity).setLives(lives);
+            PioneerData pioneerData = PioneersDataComponent.getPioneerData(playerEntities.iterator().next());
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", new Object[]{playerEntities.size(), pioneerData.getLivesDisplay()}), false);
             return playerEntities.size();
         }
     }

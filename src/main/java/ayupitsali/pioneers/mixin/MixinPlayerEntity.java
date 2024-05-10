@@ -1,8 +1,8 @@
 package ayupitsali.pioneers.mixin;
 
 import ayupitsali.pioneers.data.LivesGroup;
-import ayupitsali.pioneers.data.ModComponents;
 import ayupitsali.pioneers.data.PioneerData;
+import ayupitsali.pioneers.data.PioneersDataComponent;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,11 +23,11 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void onDropInventory(final CallbackInfo info) {
-        PioneerData playerData = ModComponents.PIONEER_DATA.get(this);
-        LivesGroup playerGroup = playerData.getLivesGroup();
+        PioneerData pioneerData = PioneersDataComponent.getPioneerData(this);
+        LivesGroup playerGroup = pioneerData.getLivesGroup();
         if (!playerGroup.equals(LivesGroup.GHOST)) {
             if (attackingPlayer != null) {
-                PioneerData attackerData = ModComponents.PIONEER_DATA.get(attackingPlayer);
+                PioneerData attackerData = PioneersDataComponent.getPioneerData(attackingPlayer);
                 LivesGroup attackerGroup = attackerData.getLivesGroup();
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (playerGroup.equals(LivesGroup.GREEN)) {
@@ -41,14 +41,14 @@ public abstract class MixinPlayerEntity extends LivingEntity {
                     }
                 }
             }
-            playerData.addLives(-1);
-            sendMessage(Text.translatable("lives.lives_changed.death", new Object[]{playerData.getLivesDisplay()}));
+            pioneerData.addLives(-1);
+            sendMessage(Text.translatable("lives.lives_changed.death", new Object[]{pioneerData.getLivesDisplay()}));
         }
     }
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     private void onGetDisplayName(CallbackInfoReturnable<Text> cir) {
-        LivesGroup playerGroup = ModComponents.PIONEER_DATA.get(this).getLivesGroup();
+        LivesGroup playerGroup = PioneersDataComponent.getPioneerData(this).getLivesGroup();
         cir.setReturnValue(cir.getReturnValue().copy().formatted(playerGroup.getColourFormatting()));
     }
 }
