@@ -3,7 +3,6 @@ package ayupitsali.pioneers.command;
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.ModComponents;
 import ayupitsali.pioneers.data.PioneerData;
-import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -27,11 +26,9 @@ public class LivesCommand {
                 executeGet(context, context.getSource().getPlayerOrThrow())
         ).then(CommandManager.argument("player", EntityArgumentType.player()).executes(context ->
                 executeGet(context, EntityArgumentType.getPlayer(context, "player"))
-        ))).then(CommandManager.literal("set").then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
-                executeSet(context, IntegerArgumentType.getInteger(context, "lives"), ImmutableList.of(context.getSource().getPlayerOrThrow()))
-        ).then(CommandManager.argument("players", EntityArgumentType.players()).executes(context ->
+        ))).then(CommandManager.literal("set").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.argument("players", EntityArgumentType.players()).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                 executeSet(context, IntegerArgumentType.getInteger(context, "lives"), EntityArgumentType.getPlayers(context, "players"))
-        )))));
+        )))).then(CommandManager.literal("reset").executes(LivesCommand::executeReset)));
     }
 
     public static int executeGet(CommandContext<ServerCommandSource> context, ServerPlayerEntity playerEntity) throws CommandSyntaxException {
@@ -60,5 +57,10 @@ public class LivesCommand {
             context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", new Object[]{playerEntities.size(), playerData.getLivesDisplay()}), false);
             return playerEntities.size();
         }
+    }
+
+    public static int executeReset(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        context.getSource().sendFeedback(() -> Text.literal("Reset command"), false);
+        return 1;
     }
 }
