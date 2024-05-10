@@ -36,11 +36,10 @@ public class LivesCommand {
 
     public static int executeGet(CommandContext<ServerCommandSource> context, ServerPlayerEntity playerEntity) throws CommandSyntaxException {
         PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
-        if (context.getSource().getPlayerOrThrow().equals(playerEntity)) {
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", playerData.getLivesDisplay()), false);
-        } else {
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", playerEntity.getDisplayName(), playerData.getLivesDisplay()), false);
-        }
+        if (context.getSource().getPlayerOrThrow().equals(playerEntity))
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.self", new Object[]{playerData.getLivesDisplay()}), false);
+        else
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.get.success.single", new Object[]{playerEntity.getDisplayName(), playerData.getLivesDisplay()}), false);
         return 1;
     }
 
@@ -49,17 +48,16 @@ public class LivesCommand {
             ServerPlayerEntity playerEntity = playerEntities.iterator().next();
             PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntity);
             playerData.setLives(lives);
-            if (context.getSource().getPlayerOrThrow().equals(playerEntity)) {
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", playerData.getLivesDisplay()), false);
-            } else {
-                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", playerEntity.getDisplayName(), playerData.getLivesDisplay()), false);
-            }
+            if (context.getSource().getPlayerOrThrow().equals(playerEntity))
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", new Object[]{playerData.getLivesDisplay()}), false);
+            else
+                context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", new Object[]{playerEntity.getDisplayName(), playerData.getLivesDisplay()}), false);
             return 1;
         } else {
             for (ServerPlayerEntity playerEntity : playerEntities)
                 ModComponents.PIONEER_DATA.get(playerEntity).setLives(lives);
             PioneerData playerData = ModComponents.PIONEER_DATA.get(playerEntities.iterator().next());
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", playerEntities.size(), playerData.getLivesDisplay()), false);
+            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.multiple", new Object[]{playerEntities.size(), playerData.getLivesDisplay()}), false);
             return playerEntities.size();
         }
     }

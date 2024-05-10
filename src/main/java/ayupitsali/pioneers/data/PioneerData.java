@@ -37,7 +37,7 @@ public class PioneerData implements Component {
 
     public static MutableText getLivesText(int lives, Formatting livesFormatting) {
         MutableText livesText = Text.literal(Integer.toString(lives)).formatted(livesFormatting);
-        return lives == 1 ? Text.translatable("lives.display.single", livesText) : Text.translatable("lives.display.multiple", livesText);
+        return lives == 1 ? Text.translatable("lives.display.single", new Object[]{livesText}) : Text.translatable("lives.display.multiple", new Object[]{livesText});
     }
 
     public MutableText getLivesDisplay() {
