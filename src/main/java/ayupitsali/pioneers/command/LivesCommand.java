@@ -47,7 +47,7 @@ public class LivesCommand {
         Collection<Pioneer> pioneers = Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers();
         Arrays.stream(LivesGroup.values()).forEach(livesGroup -> {
             List<Pioneer> groupPioneers = pioneers.stream().filter(pioneerData -> pioneerData.getLivesGroup().equals(livesGroup)).toList();
-            context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.title", new Object[]{livesGroup.getDisplayName().formatted(Formatting.BOLD)}), false);
+            context.getSource().sendFeedback(livesGroup::getListTitle, false);
             if (groupPioneers.isEmpty()) {
                 context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", Text.translatable("commands.lives.list.success.item.empty").formatted(Formatting.GRAY).formatted(Formatting.ITALIC)), false);
             } else {

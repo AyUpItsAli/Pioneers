@@ -51,12 +51,12 @@ public enum LivesGroup {
         return colourFormatting;
     }
 
-    public MutableText getDisplayName() {
+    public MutableText getListTitle() {
         return switch (this) {
-            case GREEN -> Text.literal("Green").formatted(colourFormatting);
-            case YELLOW -> Text.literal("Yellow").formatted(colourFormatting);
-            case RED -> Text.literal("Red").formatted(colourFormatting);
-            case GHOST -> Text.literal("Ghost").formatted(colourFormatting);
+            case GREEN -> Text.translatable("commands.lives.list.success.title.green").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case YELLOW -> Text.translatable("commands.lives.list.success.title.yellow").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case RED -> Text.translatable("commands.lives.list.success.title.red").formatted(colourFormatting).formatted(Formatting.BOLD);
+            case GHOST -> Text.translatable("commands.lives.list.success.title.ghost").formatted(colourFormatting).formatted(Formatting.BOLD);
         };
     }
 }
