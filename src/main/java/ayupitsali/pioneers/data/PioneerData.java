@@ -29,6 +29,10 @@ public class PioneerData {
         return name;
     }
 
+    public MutableText getDisplayName() {
+        return Text.literal(name).formatted(livesGroup.getColourFormatting());
+    }
+
     public LivesGroup getLivesGroup() {
         return livesGroup;
     }

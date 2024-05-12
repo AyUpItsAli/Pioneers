@@ -3,10 +3,8 @@
   "lives.display.multiple": "%s lives",
   "lives.gained_life.kill": "You gained %s from killing another player",
   "lives.lives_changed.death": "You now have %s",
-  "commands.lives.get.success.self": "You have %s",
-  "commands.lives.get.success.single": "%s has %s",
-  "commands.lives.get.failure": "Pioneer not found",
+  "commands.lives.success": "You have %s",
+  "commands.lives.list.success": "",
   "commands.lives.set.success.self": "You now have %s",
-  "commands.lives.set.success.single": "%s now has %s",
-  "commands.lives.set.success.multiple": "%s players now have %s"
+  "commands.lives.set.success.single": "%s now has %s"
 }
