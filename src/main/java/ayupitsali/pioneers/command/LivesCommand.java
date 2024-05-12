@@ -3,7 +3,7 @@ package ayupitsali.pioneers.command;
 import ayupitsali.pioneers.Pioneers;
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
-import ayupitsali.pioneers.data.PioneersData;
+import ayupitsali.pioneers.data.PioneerData;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -27,7 +27,7 @@ public class LivesCommand {
                                 CommandManager.RegistrationEnvironment environment) {
         dispatcher.register(CommandManager.literal("lives").executes(LivesCommand::executeLives).then(CommandManager.literal("list").executes(LivesCommand::executeList))
                 .then(CommandManager.literal("set").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.argument("pioneer", GameProfileArgumentType.gameProfile()).suggests((context, builder) ->
-                        CommandSource.suggestMatching(Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().stream().map(Pioneer::getName), builder)
+                        CommandSource.suggestMatching(Pioneers.PIONEER_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().stream().map(Pioneer::getName), builder)
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                         executeSet(context, GameProfileArgumentType.getProfileArgument(context, "pioneer").iterator().next(), IntegerArgumentType.getInteger(context, "lives"))
                 )))).then(CommandManager.literal("reset").requires(source -> source.hasPermissionLevel(2)).executes(context ->
@@ -38,13 +38,13 @@ public class LivesCommand {
     }
 
     public static int executeLives(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-        Pioneer pioneer = PioneersData.getPioneer(context.getSource().getPlayerOrThrow());
+        Pioneer pioneer = PioneerData.getPioneer(context.getSource().getPlayerOrThrow());
         context.getSource().sendFeedback(() -> Text.translatable("commands.lives.query.success", new Object[]{pioneer.getLivesDisplay()}), false);
         return 1;
     }
 
     public static int executeList(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-        Collection<Pioneer> pioneers = Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers();
+        Collection<Pioneer> pioneers = Pioneers.PIONEER_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers();
         Arrays.stream(LivesGroup.values()).forEach(livesGroup -> {
             List<Pioneer> groupPioneers = pioneers.stream().filter(pioneerData -> pioneerData.getLivesGroup().equals(livesGroup)).toList();
             context.getSource().sendFeedback(livesGroup::getListTitle, false);
@@ -60,7 +60,7 @@ public class LivesCommand {
     }
 
     public static int executeSet(CommandContext<ServerCommandSource> context, GameProfile profile, int lives) throws CommandSyntaxException {
-        PioneersData pioneersData = Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard());
+        PioneerData pioneersData = Pioneers.PIONEER_DATA.get(context.getSource().getWorld().getScoreboard());
         if (!pioneersData.pioneerExists(profile)) {
             context.getSource().sendError(Text.translatable("commands.lives.set.failure"));
             return 0;
@@ -75,7 +75,7 @@ public class LivesCommand {
     }
 
     public static int executeReset(CommandContext<ServerCommandSource> context, int lives) throws CommandSyntaxException {
-        Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().forEach(pioneer -> pioneer.setLives(lives));
+        Pioneers.PIONEER_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().forEach(pioneer -> pioneer.setLives(lives));
         Formatting formatting = LivesGroup.getGroupForLives(lives).getColourFormatting();
         context.getSource().sendFeedback(() -> Text.translatable("commands.lives.reset.success", Pioneer.getLivesText(lives, formatting)), false);
         return 1;

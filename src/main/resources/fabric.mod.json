@@ -27,7 +27,7 @@
 	},
 	"custom": {
 		"cardinal-components": [
-			"pioneers:pioneers_data"
+			"pioneers:pioneer_data"
 		]
 	},
 	"mixins": [

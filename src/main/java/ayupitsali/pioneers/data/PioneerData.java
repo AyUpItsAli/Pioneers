@@ -14,16 +14,16 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PioneersData implements AutoSyncedComponent {
+public class PioneerData implements AutoSyncedComponent {
     private final Scoreboard provider;
     private final Map<String, Pioneer> pioneers = new HashMap<>();
 
-    public PioneersData(Scoreboard provider) {
+    public PioneerData(Scoreboard provider) {
         this.provider = provider;
     }
 
     public void sync() {
-        Pioneers.PIONEERS_DATA.sync(provider);
+        Pioneers.PIONEER_DATA.sync(provider);
     }
 
     public Collection<Pioneer> getPioneers() {
@@ -46,7 +46,7 @@ public class PioneersData implements AutoSyncedComponent {
     // Must accept player as LivingEntity instead of PlayerEntity, so that MixinPlayerEntity can be passed
     public static Pioneer getPioneer(LivingEntity player) {
         if (player instanceof PlayerEntity playerEntity) {
-            return Pioneers.PIONEERS_DATA.get(playerEntity.getScoreboard()).getPioneer(playerEntity.getGameProfile());
+            return Pioneers.PIONEER_DATA.get(playerEntity.getScoreboard()).getPioneer(playerEntity.getGameProfile());
         }
         return null;
     }

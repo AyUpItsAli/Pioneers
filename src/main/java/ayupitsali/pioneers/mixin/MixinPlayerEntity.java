@@ -2,7 +2,7 @@ package ayupitsali.pioneers.mixin;
 
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
-import ayupitsali.pioneers.data.PioneersData;
+import ayupitsali.pioneers.data.PioneerData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
@@ -24,11 +24,11 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void onDropInventory(final CallbackInfo info) {
-        Pioneer pioneer = PioneersData.getPioneer(this);
+        Pioneer pioneer = PioneerData.getPioneer(this);
         LivesGroup pioneerGroup = pioneer.getLivesGroup();
         if (!pioneerGroup.equals(LivesGroup.GHOST)) {
             if (attackingPlayer != null) {
-                Pioneer attacker = PioneersData.getPioneer(attackingPlayer);
+                Pioneer attacker = PioneerData.getPioneer(attackingPlayer);
                 LivesGroup attackerGroup = attacker.getLivesGroup();
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (pioneerGroup.equals(LivesGroup.GREEN)) {
@@ -59,7 +59,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     private void onGetDisplayName(CallbackInfoReturnable<Text> cir) {
-        LivesGroup livesGroup = PioneersData.getPioneer(this).getLivesGroup();
+        LivesGroup livesGroup = PioneerData.getPioneer(this).getLivesGroup();
         cir.setReturnValue(cir.getReturnValue().copy().formatted(livesGroup.getColourFormatting()));
     }
 }

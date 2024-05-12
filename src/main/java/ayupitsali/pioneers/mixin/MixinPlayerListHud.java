@@ -18,7 +18,7 @@ public abstract class MixinPlayerListHud {
     private void onGetPlayerName(PlayerListEntry entry, CallbackInfoReturnable<Text> cir) {
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) {
-            LivesGroup livesGroup = Pioneers.PIONEERS_DATA.get(world.getScoreboard()).getPioneer(entry.getProfile()).getLivesGroup();
+            LivesGroup livesGroup = Pioneers.PIONEER_DATA.get(world.getScoreboard()).getPioneer(entry.getProfile()).getLivesGroup();
             cir.setReturnValue(cir.getReturnValue().copy().formatted(livesGroup.getColourFormatting()));
         }
     }
