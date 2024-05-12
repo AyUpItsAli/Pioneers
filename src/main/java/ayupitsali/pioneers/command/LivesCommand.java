@@ -39,7 +39,7 @@ public class LivesCommand {
 
     public static int executeLives(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
         Pioneer pioneer = PioneersData.getPioneer(context.getSource().getPlayerOrThrow());
-        context.getSource().sendFeedback(() -> Text.translatable("commands.lives.success", new Object[]{pioneer.getLivesDisplay()}), false);
+        context.getSource().sendFeedback(() -> Text.translatable("commands.lives.query.success", new Object[]{pioneer.getLivesDisplay()}), false);
         return 1;
     }
 

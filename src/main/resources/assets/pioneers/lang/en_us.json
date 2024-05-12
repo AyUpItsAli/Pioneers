@@ -1,15 +1,15 @@
 {
   "lives.display.single": "%s life",
   "lives.display.multiple": "%s lives",
-  "lives.gained_life.kill": "You gained %s from killing another player",
+  "lives.gained_life.kill": "You gained %s from killing another pioneer",
   "lives.lives_changed.death": "You have %s left",
-  "commands.lives.success": "You have %s",
-  "commands.lives.list.success.title": "%s players",
+  "commands.lives.query.success": "You have %s",
+  "commands.lives.list.success.title": "%s pioneers",
   "commands.lives.list.success.item": "- %s",
   "commands.lives.list.success.item.empty": "None",
   "commands.lives.list.success.item.pioneer": "%s has %s",
   "commands.lives.set.success.self": "You now have %s",
   "commands.lives.set.success.single": "%s now has %s",
   "commands.lives.set.failure": "Pioneer not found",
-  "commands.lives.reset.success": "All pioneers now have %s"
+  "commands.lives.reset.success": "All pioneers have been reset to %s"
 }
