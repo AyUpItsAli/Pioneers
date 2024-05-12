@@ -26,10 +26,10 @@ public class LivesCommand {
                                 CommandRegistryAccess registryAccess,
                                 CommandManager.RegistrationEnvironment environment) {
         dispatcher.register(CommandManager.literal("lives").executes(LivesCommand::executeLives).then(CommandManager.literal("list").executes(LivesCommand::executeList))
-                .then(CommandManager.literal("set").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.argument("player", GameProfileArgumentType.gameProfile()).suggests((context, builder) ->
+                .then(CommandManager.literal("set").requires(source -> source.hasPermissionLevel(2)).then(CommandManager.argument("pioneer", GameProfileArgumentType.gameProfile()).suggests((context, builder) ->
                         CommandSource.suggestMatching(Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().stream().map(Pioneer::getName), builder)
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
-                        executeSet(context, GameProfileArgumentType.getProfileArgument(context, "player").iterator().next(), IntegerArgumentType.getInteger(context, "lives"))
+                        executeSet(context, GameProfileArgumentType.getProfileArgument(context, "pioneer").iterator().next(), IntegerArgumentType.getInteger(context, "lives"))
                 )))).then(CommandManager.literal("reset").requires(source -> source.hasPermissionLevel(2)).executes(context ->
                         executeReset(context, LivesGroup.GREEN.getMaxLives())
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
