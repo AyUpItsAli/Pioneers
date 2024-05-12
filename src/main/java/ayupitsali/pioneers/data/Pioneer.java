@@ -43,16 +43,8 @@ public class Pioneer {
 
     public void setLives(int lives) {
         this.lives = Math.min(Math.max(lives, 0), LivesGroup.GREEN.getMaxLives());
-        if (this.lives >= LivesGroup.GREEN.getMinLives()) {
-            livesGroup = LivesGroup.GREEN;
-        } else if (this.lives >= LivesGroup.YELLOW.getMinLives()) {
-            livesGroup = LivesGroup.YELLOW;
-        } else if (this.lives >= LivesGroup.RED.getMinLives()) {
-            livesGroup = LivesGroup.RED;
-        } else {
-            livesGroup = LivesGroup.GHOST;
-        }
-        this.component.sync();
+        livesGroup = LivesGroup.getGroupForLives(this.lives);
+        component.sync();
     }
 
     public void addLives(int amount) {

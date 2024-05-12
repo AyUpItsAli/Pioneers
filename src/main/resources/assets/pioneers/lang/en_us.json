@@ -10,5 +10,6 @@
   "commands.lives.list.success.item.pioneer": "%s has %s",
   "commands.lives.set.success.self": "You now have %s",
   "commands.lives.set.success.single": "%s now has %s",
-  "commands.lives.set.failure": "Pioneer not found"
+  "commands.lives.set.failure": "Pioneer not found",
+  "commands.lives.reset.success": "All pioneers now have %s"
 }

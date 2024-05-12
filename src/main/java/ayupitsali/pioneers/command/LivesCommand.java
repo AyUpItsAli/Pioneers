@@ -30,7 +30,11 @@ public class LivesCommand {
                         CommandSource.suggestMatching(Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().stream().map(Pioneer::getName), builder)
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                         executeSet(context, GameProfileArgumentType.getProfileArgument(context, "player").iterator().next(), IntegerArgumentType.getInteger(context, "lives"))
-                )))).then(CommandManager.literal("reset").executes(LivesCommand::executeReset)));
+                )))).then(CommandManager.literal("reset").executes(context ->
+                        executeReset(context, LivesGroup.GREEN.getMaxLives())
+                ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
+                        executeReset(context, IntegerArgumentType.getInteger(context, "lives"))
+                ))));
     }
 
     public static int executeLives(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
@@ -40,14 +44,14 @@ public class LivesCommand {
     }
 
     public static int executeList(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-        Collection<Pioneer> allPioneers = Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers();
+        Collection<Pioneer> pioneers = Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers();
         Arrays.stream(LivesGroup.values()).forEach(livesGroup -> {
-            List<Pioneer> pioneers = allPioneers.stream().filter(pioneerData -> pioneerData.getLivesGroup().equals(livesGroup)).toList();
+            List<Pioneer> groupPioneers = pioneers.stream().filter(pioneerData -> pioneerData.getLivesGroup().equals(livesGroup)).toList();
             context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.title", new Object[]{livesGroup.getDisplayName().formatted(Formatting.BOLD)}), false);
-            if (pioneers.isEmpty()) {
+            if (groupPioneers.isEmpty()) {
                 context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", Text.translatable("commands.lives.list.success.item.empty").formatted(Formatting.GRAY).formatted(Formatting.ITALIC)), false);
             } else {
-                pioneers.forEach(pioneer -> {
+                groupPioneers.forEach(pioneer -> {
                     context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", Text.translatable("commands.lives.list.success.item.pioneer", new Object[]{pioneer.getDisplayName(), pioneer.getLivesDisplay()})), false);
                 });
             }
@@ -70,8 +74,10 @@ public class LivesCommand {
         return 1;
     }
 
-    public static int executeReset(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
-        context.getSource().sendFeedback(() -> Text.literal("Reset command"), false);
+    public static int executeReset(CommandContext<ServerCommandSource> context, int lives) throws CommandSyntaxException {
+        Pioneers.PIONEERS_DATA.get(context.getSource().getWorld().getScoreboard()).getPioneers().forEach(pioneer -> pioneer.setLives(lives));
+        Formatting formatting = LivesGroup.getGroupForLives(lives).getColourFormatting();
+        context.getSource().sendFeedback(() -> Text.translatable("commands.lives.reset.success", Pioneer.getLivesText(lives, formatting)), false);
         return 1;
     }
 }

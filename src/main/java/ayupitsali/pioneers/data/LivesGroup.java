@@ -22,10 +22,6 @@ public enum LivesGroup {
         return lives;
     }
 
-    public Formatting getColourFormatting() {
-        return colourFormatting;
-    }
-
     public int getMaxLives() {
         return switch (this) {
             case GREEN -> RED.getLives() + YELLOW.getLives() + GREEN.getLives();
@@ -42,6 +38,17 @@ public enum LivesGroup {
             case RED -> 1;
             case GHOST -> 0;
         };
+    }
+
+    public static LivesGroup getGroupForLives(int lives) {
+        if (lives >= GREEN.getMinLives()) return GREEN;
+        if (lives >= YELLOW.getMinLives()) return YELLOW;
+        if (lives >= RED.getMinLives()) return RED;
+        return GHOST;
+    }
+
+    public Formatting getColourFormatting() {
+        return colourFormatting;
     }
 
     public MutableText getDisplayName() {
