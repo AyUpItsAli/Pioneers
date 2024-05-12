@@ -4,24 +4,24 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
-public class PioneerData {
+public class Pioneer {
+    private final PioneersData component;
     private final String name;
-    private final PioneersDataComponent component;
     private LivesGroup livesGroup;
     private int lives;
 
-    public PioneerData(PioneersDataComponent component, String name, LivesGroup livesGroup, int lives) {
+    public Pioneer(PioneersData component, String name, LivesGroup livesGroup, int lives) {
         this.component = component;
         this.name = name;
         this.livesGroup = livesGroup;
         this.lives = lives;
     }
 
-    public PioneerData(PioneersDataComponent component, String name, LivesGroup livesGroup) {
+    public Pioneer(PioneersData component, String name, LivesGroup livesGroup) {
         this(component, name, livesGroup, livesGroup.getMaxLives());
     }
 
-    public PioneerData(PioneersDataComponent component, String name) {
+    public Pioneer(PioneersData component, String name) {
         this(component, name, LivesGroup.GREEN);
     }
 
@@ -60,7 +60,7 @@ public class PioneerData {
     }
 
     public MutableText getLivesDisplay() {
-        return PioneerData.getLivesText(lives, livesGroup.getColourFormatting());
+        return Pioneer.getLivesText(lives, livesGroup.getColourFormatting());
     }
 
     public static MutableText getLivesText(int lives, Formatting livesFormatting) {

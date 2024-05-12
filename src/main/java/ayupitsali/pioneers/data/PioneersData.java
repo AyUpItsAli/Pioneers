@@ -10,15 +10,15 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.scoreboard.Scoreboard;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
-public class PioneersDataComponent implements AutoSyncedComponent {
+public class PioneersData implements AutoSyncedComponent {
     private final Scoreboard provider;
-    private final Map<String, PioneerData> pioneers = new HashMap<>();
+    private final Map<String, Pioneer> pioneers = new HashMap<>();
 
-    public PioneersDataComponent(Scoreboard provider) {
+    public PioneersData(Scoreboard provider) {
         this.provider = provider;
     }
 
@@ -26,27 +26,27 @@ public class PioneersDataComponent implements AutoSyncedComponent {
         Pioneers.PIONEERS_DATA.sync(provider);
     }
 
+    public Collection<Pioneer> getPioneers() {
+        return pioneers.values();
+    }
+
     public boolean pioneerExists(GameProfile profile) {
         return pioneers.containsKey(profile.getId().toString());
     }
 
-    public PioneerData getPioneerData(GameProfile profile) {
+    public Pioneer getPioneer(GameProfile profile) {
         String id = profile.getId().toString();
         if (!pioneerExists(profile)) {
-            pioneers.put(id, new PioneerData(this, profile.getName()));
+            pioneers.put(id, new Pioneer(this, profile.getName()));
             sync();
         }
         return pioneers.get(id);
     }
 
-    public Stream<String> getPioneerNames() {
-        return pioneers.values().stream().map(PioneerData::getName);
-    }
-
     // Must accept player as LivingEntity instead of PlayerEntity, so that MixinPlayerEntity can be passed
-    public static PioneerData getPioneerData(LivingEntity player) {
+    public static Pioneer getPioneer(LivingEntity player) {
         if (player instanceof PlayerEntity playerEntity) {
-            return Pioneers.PIONEERS_DATA.get(playerEntity.getScoreboard()).getPioneerData(playerEntity.getGameProfile());
+            return Pioneers.PIONEERS_DATA.get(playerEntity.getScoreboard()).getPioneer(playerEntity.getGameProfile());
         }
         return null;
     }
@@ -60,7 +60,7 @@ public class PioneersDataComponent implements AutoSyncedComponent {
                 String name = compound.getString("name");
                 LivesGroup livesGroup = LivesGroup.values()[compound.getInt("livesGroup")];
                 int lives = compound.getInt("lives");
-                pioneers.put(id, new PioneerData(this, name, livesGroup, lives));
+                pioneers.put(id, new Pioneer(this, name, livesGroup, lives));
             }
         }));
     }
@@ -68,12 +68,12 @@ public class PioneersDataComponent implements AutoSyncedComponent {
     @Override
     public void writeToNbt(NbtCompound tag) {
         NbtList list = new NbtList();
-        pioneers.forEach((id, pioneerData) -> {
+        pioneers.forEach((id, pioneer) -> {
             NbtCompound compound = new NbtCompound();
             compound.putString("id", id);
-            compound.putString("name", pioneerData.getName());
-            compound.putInt("livesGroup", pioneerData.getLivesGroup().ordinal());
-            compound.putInt("lives", pioneerData.getLives());
+            compound.putString("name", pioneer.getName());
+            compound.putInt("livesGroup", pioneer.getLivesGroup().ordinal());
+            compound.putInt("lives", pioneer.getLives());
             list.add(compound);
         });
         tag.put("pioneers", list);

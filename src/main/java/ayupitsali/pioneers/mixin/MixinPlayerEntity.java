@@ -1,8 +1,8 @@
 package ayupitsali.pioneers.mixin;
 
 import ayupitsali.pioneers.data.LivesGroup;
-import ayupitsali.pioneers.data.PioneerData;
-import ayupitsali.pioneers.data.PioneersDataComponent;
+import ayupitsali.pioneers.data.Pioneer;
+import ayupitsali.pioneers.data.PioneersData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,32 +23,32 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void onDropInventory(final CallbackInfo info) {
-        PioneerData pioneerData = PioneersDataComponent.getPioneerData(this);
-        LivesGroup playerGroup = pioneerData.getLivesGroup();
-        if (!playerGroup.equals(LivesGroup.GHOST)) {
+        Pioneer pioneer = PioneersData.getPioneer(this);
+        LivesGroup pioneerGroup = pioneer.getLivesGroup();
+        if (!pioneerGroup.equals(LivesGroup.GHOST)) {
             if (attackingPlayer != null) {
-                PioneerData attackerData = PioneersDataComponent.getPioneerData(attackingPlayer);
-                LivesGroup attackerGroup = attackerData.getLivesGroup();
+                Pioneer attacker = PioneersData.getPioneer(attackingPlayer);
+                LivesGroup attackerGroup = attacker.getLivesGroup();
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
-                    if (playerGroup.equals(LivesGroup.GREEN)) {
-                        attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{PioneerData.getLivesText(1, Formatting.GREEN)}));
+                    if (pioneerGroup.equals(LivesGroup.GREEN)) {
+                        attacker.addLives(1);
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
                     }
                 } else if (attackerGroup.equals(LivesGroup.RED)) {
-                    if (playerGroup.equals(LivesGroup.GREEN) || playerGroup.equals(LivesGroup.YELLOW)) {
-                        attackerData.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{PioneerData.getLivesText(1, Formatting.GREEN)}));
+                    if (pioneerGroup.equals(LivesGroup.GREEN) || pioneerGroup.equals(LivesGroup.YELLOW)) {
+                        attacker.addLives(1);
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
                     }
                 }
             }
-            pioneerData.addLives(-1);
-            sendMessage(Text.translatable("lives.lives_changed.death", new Object[]{pioneerData.getLivesDisplay()}));
+            pioneer.addLives(-1);
+            sendMessage(Text.translatable("lives.lives_changed.death", new Object[]{pioneer.getLivesDisplay()}));
         }
     }
 
     @Inject(method = "getDisplayName", at = @At("RETURN"), cancellable = true)
     private void onGetDisplayName(CallbackInfoReturnable<Text> cir) {
-        LivesGroup playerGroup = PioneersDataComponent.getPioneerData(this).getLivesGroup();
-        cir.setReturnValue(cir.getReturnValue().copy().formatted(playerGroup.getColourFormatting()));
+        LivesGroup livesGroup = PioneersData.getPioneer(this).getLivesGroup();
+        cir.setReturnValue(cir.getReturnValue().copy().formatted(livesGroup.getColourFormatting()));
     }
 }
