@@ -31,7 +31,7 @@ public class PioneersDataComponent implements AutoSyncedComponent {
         return pioneers.get(id);
     }
 
-    // Must accept player as LivingEntity so that MixinPlayerEntity can be passed
+    // Must accept player as LivingEntity instead of PlayerEntity, so that MixinPlayerEntity can be passed
     public static PioneerData getPioneerData(LivingEntity player) {
         if (player instanceof PlayerEntity playerEntity) {
             PioneersDataComponent component = ModComponents.PIONEERS_DATA.get(playerEntity.getScoreboard());
