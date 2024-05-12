@@ -1,7 +1,7 @@
 package ayupitsali.pioneers.mixin;
 
+import ayupitsali.pioneers.Pioneers;
 import ayupitsali.pioneers.data.LivesGroup;
-import ayupitsali.pioneers.data.ModComponents;
 import ayupitsali.pioneers.data.PioneersDataComponent;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.PlayerListHud;
@@ -19,7 +19,7 @@ public abstract class MixinPlayerListHud {
     private void onGetPlayerName(PlayerListEntry entry, CallbackInfoReturnable<Text> cir) {
         ClientWorld world = MinecraftClient.getInstance().world;
         if (world != null) {
-            PioneersDataComponent component = ModComponents.PIONEERS_DATA.get(world.getScoreboard());
+            PioneersDataComponent component = Pioneers.PIONEERS_DATA.get(world.getScoreboard());
             LivesGroup playerGroup = component.getPioneerData(entry.getProfile().getId().toString()).getLivesGroup();
             cir.setReturnValue(cir.getReturnValue().copy().formatted(playerGroup.getColourFormatting()));
         }

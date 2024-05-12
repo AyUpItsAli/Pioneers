@@ -22,7 +22,7 @@
 			"ayupitsali.pioneers.PioneersDataGenerator"
 		],
 		"cardinal-components": [
-			"ayupitsali.pioneers.data.ModComponents"
+			"ayupitsali.pioneers.Pioneers"
 		]
 	},
 	"custom": {

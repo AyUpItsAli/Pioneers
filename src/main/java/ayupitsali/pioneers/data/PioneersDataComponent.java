@@ -1,5 +1,6 @@
 package ayupitsali.pioneers.data;
 
+import ayupitsali.pioneers.Pioneers;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +21,7 @@ public class PioneersDataComponent implements AutoSyncedComponent {
     }
 
     public void sync() {
-        ModComponents.PIONEERS_DATA.sync(provider);
+        Pioneers.PIONEERS_DATA.sync(provider);
     }
 
     public PioneerData getPioneerData(String id) {
@@ -34,7 +35,7 @@ public class PioneersDataComponent implements AutoSyncedComponent {
     // Must accept player as LivingEntity instead of PlayerEntity, so that MixinPlayerEntity can be passed
     public static PioneerData getPioneerData(LivingEntity player) {
         if (player instanceof PlayerEntity playerEntity) {
-            PioneersDataComponent component = ModComponents.PIONEERS_DATA.get(playerEntity.getScoreboard());
+            PioneersDataComponent component = Pioneers.PIONEERS_DATA.get(playerEntity.getScoreboard());
             return component.getPioneerData(playerEntity.getGameProfile().getId().toString());
         }
         return null;
