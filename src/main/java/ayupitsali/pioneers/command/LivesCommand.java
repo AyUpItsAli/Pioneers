@@ -67,7 +67,7 @@ public class LivesCommand {
         }
         Pioneer pioneer = pioneersData.getPioneer(profile);
         pioneer.setLives(lives);
-        if (context.getSource().getPlayerOrThrow().getGameProfile().equals(profile))
+        if (context.getSource().isExecutedByPlayer() && context.getSource().getPlayerOrThrow().getGameProfile().equals(profile))
             context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.self", new Object[]{pioneer.getLivesDisplay()}), false);
         else
             context.getSource().sendFeedback(() -> Text.translatable("commands.lives.set.success.single", new Object[]{pioneer.getDisplayName(), pioneer.getLivesDisplay()}), false);
