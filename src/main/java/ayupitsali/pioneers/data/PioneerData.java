@@ -42,7 +42,7 @@ public class PioneerData {
         } else {
             livesGroup = LivesGroup.GHOST;
         }
-        ModComponents.PIONEERS_DATA.sync(this.component.getProvider());
+        this.component.sync();
     }
 
     public void addLives(int amount) {

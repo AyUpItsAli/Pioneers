@@ -19,14 +19,14 @@ public class PioneersDataComponent implements AutoSyncedComponent {
         this.provider = provider;
     }
 
-    public Scoreboard getProvider() {
-        return provider;
+    public void sync() {
+        ModComponents.PIONEERS_DATA.sync(provider);
     }
 
     public PioneerData getPioneerData(String id) {
         if (!pioneers.containsKey(id)) {
             pioneers.put(id, new PioneerData(this));
-            ModComponents.PIONEERS_DATA.sync(provider);
+            sync();
         }
         return pioneers.get(id);
     }
