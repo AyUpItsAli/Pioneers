@@ -32,17 +32,22 @@ public abstract class MixinPlayerEntity extends LivingEntity {
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (pioneerGroup.equals(LivesGroup.GREEN)) {
                         attacker.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
                     }
                 } else if (attackerGroup.equals(LivesGroup.RED)) {
                     if (pioneerGroup.equals(LivesGroup.GREEN) || pioneerGroup.equals(LivesGroup.YELLOW)) {
                         attacker.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life.kill", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
                     }
                 }
             }
             pioneer.addLives(-1);
-            sendMessage(Text.translatable("lives.lives_changed.death", new Object[]{pioneer.getLivesDisplay()}));
+            int newLives = pioneer.getLives();
+            if (newLives == 0) {
+                getWorld().getPlayers().forEach(playerEntity -> playerEntity.sendMessage(Text.translatable("lives.out_of_lives", new Object[]{getDisplayName()})));
+            } else {
+                sendMessage(Text.translatable("lives.lives_changed", new Object[]{pioneer.getLivesDisplay()}));
+            }
         }
     }
 

@@ -1,8 +1,9 @@
 {
   "lives.display.single": "%s life",
   "lives.display.multiple": "%s lives",
-  "lives.gained_life.kill": "You gained %s from killing another pioneer",
-  "lives.lives_changed.death": "You have %s left",
+  "lives.lives_changed": "You have %s left",
+  "lives.gained_life": "You gained %s from killing another pioneer",
+  "lives.out_of_lives": "%s has run out of lives! May their spirit haunt the realms...",
   "commands.lives.query.success": "You have %s",
   "commands.lives.list.success.title": "%s pioneers",
   "commands.lives.list.success.item": "- %s",
