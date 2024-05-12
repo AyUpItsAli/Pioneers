@@ -4,6 +4,7 @@ import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
 import ayupitsali.pioneers.data.PioneersData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
@@ -44,7 +45,12 @@ public abstract class MixinPlayerEntity extends LivingEntity {
             pioneer.addLives(-1);
             int newLives = pioneer.getLives();
             if (newLives == 0) {
-                getWorld().getPlayers().forEach(playerEntity -> playerEntity.sendMessage(Text.translatable("lives.out_of_lives", new Object[]{getDisplayName()})));
+                World world = getWorld();
+                LightningEntity lightningEntity = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
+                lightningEntity.setCosmetic(true);
+                lightningEntity.setPosition(getPos());
+                world.spawnEntity(lightningEntity);
+                world.getPlayers().forEach(playerEntity -> playerEntity.sendMessage(Text.translatable("lives.out_of_lives", new Object[]{getDisplayName()})));
             } else {
                 sendMessage(Text.translatable("lives.lives_changed", new Object[]{pioneer.getLivesDisplay()}));
             }
