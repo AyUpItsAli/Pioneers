@@ -5,22 +5,28 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class PioneerData {
+    private final String name;
     private final PioneersDataComponent component;
     private LivesGroup livesGroup;
     private int lives;
 
-    public PioneerData(PioneersDataComponent component, LivesGroup livesGroup, int lives) {
+    public PioneerData(PioneersDataComponent component, String name, LivesGroup livesGroup, int lives) {
         this.component = component;
+        this.name = name;
         this.livesGroup = livesGroup;
         this.lives = lives;
     }
 
-    public PioneerData(PioneersDataComponent component, LivesGroup livesGroup) {
-        this(component, livesGroup, livesGroup.getMaxLives());
+    public PioneerData(PioneersDataComponent component, String name, LivesGroup livesGroup) {
+        this(component, name, livesGroup, livesGroup.getMaxLives());
     }
 
-    public PioneerData(PioneersDataComponent component) {
-        this(component, LivesGroup.GREEN);
+    public PioneerData(PioneersDataComponent component, String name) {
+        this(component, name, LivesGroup.GREEN);
+    }
+
+    public String getName() {
+        return name;
     }
 
     public LivesGroup getLivesGroup() {
