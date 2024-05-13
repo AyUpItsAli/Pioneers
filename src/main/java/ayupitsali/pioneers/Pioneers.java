@@ -2,8 +2,6 @@ package ayupitsali.pioneers;
 
 import ayupitsali.pioneers.command.LivesCommand;
 import ayupitsali.pioneers.data.PioneerData;
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
-import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistry;
 import dev.onyxstudios.cca.api.v3.scoreboard.ScoreboardComponentFactoryRegistry;
@@ -16,7 +14,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Pioneers implements ModInitializer, ScoreboardComponentInitializer, ModMenuApi {
+public class Pioneers implements ModInitializer, ScoreboardComponentInitializer {
 	public static final String MOD_ID = "pioneers";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
@@ -33,10 +31,5 @@ public class Pioneers implements ModInitializer, ScoreboardComponentInitializer,
 	@Override
 	public void registerScoreboardComponentFactories(ScoreboardComponentFactoryRegistry registry) {
 		registry.registerScoreboardComponent(Pioneers.PIONEER_DATA, (scoreboard, server) -> new PioneerData(scoreboard));
-	}
-
-	@Override
-	public ConfigScreenFactory<?> getModConfigScreenFactory() {
-		return parent -> PioneersConfig.getScreen(parent, Pioneers.MOD_ID);
 	}
 }
