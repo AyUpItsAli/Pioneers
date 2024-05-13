@@ -59,4 +59,12 @@ public class Pioneer {
         MutableText livesText = Text.literal(Integer.toString(lives)).formatted(livesFormatting);
         return lives == 1 ? Text.translatable("lives.display.single", new Object[]{livesText}) : Text.translatable("lives.display.multiple", new Object[]{livesText});
     }
+
+    public boolean shouldGainLivesFromKill(Pioneer killed) {
+        return switch (livesGroup) {
+            case GREEN, GHOST -> false;
+            case YELLOW -> killed.getLivesGroup().equals(LivesGroup.GREEN);
+            case RED -> killed.getLivesGroup().equals(LivesGroup.YELLOW) || killed.getLivesGroup().equals(LivesGroup.GREEN);
+        };
+    }
 }

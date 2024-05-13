@@ -26,26 +26,16 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     @Inject(method = "dropInventory", at = @At("HEAD"))
     private void onDropInventory(final CallbackInfo info) {
         Pioneer pioneer = PioneerData.getPioneer(this);
-        LivesGroup pioneerGroup = pioneer.getLivesGroup();
-        if (!pioneerGroup.equals(LivesGroup.GHOST)) {
+        if (!pioneer.getLivesGroup().equals(LivesGroup.GHOST)) {
             if (attackingPlayer != null) {
                 Pioneer attacker = PioneerData.getPioneer(attackingPlayer);
-                LivesGroup attackerGroup = attacker.getLivesGroup();
-                if (attackerGroup.equals(LivesGroup.YELLOW)) {
-                    if (pioneerGroup.equals(LivesGroup.GREEN)) {
-                        attacker.addLives(PioneersConfig.LIVES_GAINED_ON_KILL);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_lives", new Object[]{Pioneer.getLivesText(PioneersConfig.LIVES_GAINED_ON_KILL, Formatting.GREEN)}));
-                    }
-                } else if (attackerGroup.equals(LivesGroup.RED)) {
-                    if (pioneerGroup.equals(LivesGroup.GREEN) || pioneerGroup.equals(LivesGroup.YELLOW)) {
-                        attacker.addLives(PioneersConfig.LIVES_GAINED_ON_KILL);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_lives", new Object[]{Pioneer.getLivesText(PioneersConfig.LIVES_GAINED_ON_KILL, Formatting.GREEN)}));
-                    }
+                if (attacker.shouldGainLivesFromKill(pioneer)) {
+                    attacker.addLives(PioneersConfig.LIVES_GAINED_ON_KILL);
+                    attackingPlayer.sendMessage(Text.translatable("lives.gained_lives", new Object[]{Pioneer.getLivesText(PioneersConfig.LIVES_GAINED_ON_KILL, Formatting.GREEN)}));
                 }
             }
             pioneer.addLives(-PioneersConfig.LIVES_LOST_ON_DEATH);
-            int newLives = pioneer.getLives();
-            if (newLives == 0) {
+            if (pioneer.getLives() <= 0) {
                 World world = getWorld();
                 LightningEntity lightningEntity = new LightningEntity(EntityType.LIGHTNING_BOLT, world);
                 lightningEntity.setCosmetic(true);
