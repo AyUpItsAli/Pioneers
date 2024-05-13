@@ -1,6 +1,5 @@
 package ayupitsali.pioneers.data;
 
-import ayupitsali.pioneers.PioneersConfig;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
