@@ -8,8 +8,9 @@
 		"AyUpItsAli"
 	],
 	"contact": {
-		"homepage": "",
-		"sources": ""
+		"homepage": "https://modrinth.com/mod/pioneers",
+		"issues": "https://github.com/AyUpItsAli/Pioneers/issues",
+		"sources": "https://github.com/AyUpItsAli/Pioneers"
 	},
 	"license": "ARR",
 	"icon": "assets/pioneers/icon.png",
