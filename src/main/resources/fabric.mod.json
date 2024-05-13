@@ -3,7 +3,7 @@
 	"id": "pioneers",
 	"version": "${version}",
 	"name": "Pioneers",
-	"description": "Tools and game mechanics used by Pioneers SMP",
+	"description": "Adds custom features and game mechanics used on Pioneers SMP",
 	"authors": [
 		"AyUpItsAli"
 	],
