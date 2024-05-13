@@ -43,7 +43,7 @@ public class Pioneer {
     }
 
     public void setLives(int lives) {
-        this.lives = Math.min(Math.max(lives, 0), LivesGroup.GREEN.getMaxLives());
+        this.lives = Math.min(Math.max(lives, 0), LivesGroup.getTotalLives());
         livesGroup = LivesGroup.getGroupForLives(this.lives);
         component.sync();
     }

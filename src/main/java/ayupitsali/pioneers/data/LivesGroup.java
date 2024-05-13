@@ -49,6 +49,10 @@ public enum LivesGroup {
         };
     }
 
+    public static int getTotalLives() {
+        return GREEN.getMaxLives();
+    }
+
     public static LivesGroup getGroupForLives(int lives) {
         if (lives >= GREEN.getMinLives()) return GREEN;
         if (lives >= YELLOW.getMinLives()) return YELLOW;
