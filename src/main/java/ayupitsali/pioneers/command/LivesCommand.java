@@ -1,7 +1,6 @@
 package ayupitsali.pioneers.command;
 
 import ayupitsali.pioneers.Pioneers;
-import ayupitsali.pioneers.PioneersConfig;
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
 import ayupitsali.pioneers.data.PioneerData;
@@ -51,6 +50,10 @@ public class LivesCommand {
             context.getSource().sendFeedback(livesGroup::getListTitle, false);
             if (groupPioneers.isEmpty()) {
                 context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", Text.translatable("commands.lives.list.success.item.empty").formatted(Formatting.GRAY).formatted(Formatting.ITALIC)), false);
+            } else if (livesGroup.equals(LivesGroup.GHOST)) {
+                groupPioneers.forEach(pioneer -> {
+                    context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", new Object[]{pioneer.getDisplayName()}), false);
+                });
             } else {
                 groupPioneers.forEach(pioneer -> {
                     context.getSource().sendFeedback(() -> Text.translatable("commands.lives.list.success.item", Text.translatable("commands.lives.list.success.item.pioneer", new Object[]{pioneer.getDisplayName(), pioneer.getLivesDisplay()})), false);
