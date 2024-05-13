@@ -1,13 +1,14 @@
 package ayupitsali.pioneers.data;
 
+import ayupitsali.pioneers.PioneersConfig;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public enum LivesGroup {
-    GREEN(3, Formatting.GREEN),
-    YELLOW(3, Formatting.YELLOW),
-    RED(3, Formatting.RED),
+    GREEN(PioneersConfig.GREEN_LIVES, Formatting.GREEN),
+    YELLOW(PioneersConfig.YELLOW_LIVES, Formatting.YELLOW),
+    RED(PioneersConfig.RED_LIVES, Formatting.RED),
     GHOST(0, Formatting.GRAY);
 
     private final int lives;
@@ -16,6 +17,14 @@ public enum LivesGroup {
     LivesGroup(int lives, Formatting colourFormatting) {
         this.lives = lives;
         this.colourFormatting = colourFormatting;
+    }
+
+    public static LivesGroup getDefaultGroup() {
+        return switch (PioneersConfig.DEFAULT_COLOUR) {
+            case GREEN -> GREEN;
+            case YELLOW -> YELLOW;
+            case RED -> RED;
+        };
     }
 
     public int getLives() {

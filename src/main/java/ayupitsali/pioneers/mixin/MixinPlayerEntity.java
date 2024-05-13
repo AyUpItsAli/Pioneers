@@ -1,5 +1,6 @@
 package ayupitsali.pioneers.mixin;
 
+import ayupitsali.pioneers.PioneersConfig;
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
 import ayupitsali.pioneers.data.PioneerData;
@@ -32,17 +33,17 @@ public abstract class MixinPlayerEntity extends LivingEntity {
                 LivesGroup attackerGroup = attacker.getLivesGroup();
                 if (attackerGroup.equals(LivesGroup.YELLOW)) {
                     if (pioneerGroup.equals(LivesGroup.GREEN)) {
-                        attacker.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
+                        attacker.addLives(PioneersConfig.LIVES_GAINED_ON_KILL);
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_lives", new Object[]{Pioneer.getLivesText(PioneersConfig.LIVES_GAINED_ON_KILL, Formatting.GREEN)}));
                     }
                 } else if (attackerGroup.equals(LivesGroup.RED)) {
                     if (pioneerGroup.equals(LivesGroup.GREEN) || pioneerGroup.equals(LivesGroup.YELLOW)) {
-                        attacker.addLives(1);
-                        attackingPlayer.sendMessage(Text.translatable("lives.gained_life", new Object[]{Pioneer.getLivesText(1, Formatting.GREEN)}));
+                        attacker.addLives(PioneersConfig.LIVES_GAINED_ON_KILL);
+                        attackingPlayer.sendMessage(Text.translatable("lives.gained_lives", new Object[]{Pioneer.getLivesText(PioneersConfig.LIVES_GAINED_ON_KILL, Formatting.GREEN)}));
                     }
                 }
             }
-            pioneer.addLives(-1);
+            pioneer.addLives(-PioneersConfig.LIVES_LOST_ON_DEATH);
             int newLives = pioneer.getLives();
             if (newLives == 0) {
                 World world = getWorld();

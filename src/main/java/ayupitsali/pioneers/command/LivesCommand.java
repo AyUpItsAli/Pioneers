@@ -1,6 +1,7 @@
 package ayupitsali.pioneers.command;
 
 import ayupitsali.pioneers.Pioneers;
+import ayupitsali.pioneers.PioneersConfig;
 import ayupitsali.pioneers.data.LivesGroup;
 import ayupitsali.pioneers.data.Pioneer;
 import ayupitsali.pioneers.data.PioneerData;
@@ -31,7 +32,7 @@ public class LivesCommand {
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                         executeSet(context, GameProfileArgumentType.getProfileArgument(context, "pioneer").iterator().next(), IntegerArgumentType.getInteger(context, "lives"))
                 )))).then(CommandManager.literal("reset").requires(source -> source.hasPermissionLevel(2)).executes(context ->
-                        executeReset(context, LivesGroup.GREEN.getMaxLives())
+                        executeReset(context, LivesGroup.getDefaultGroup().getMaxLives())
                 ).then(CommandManager.argument("lives", IntegerArgumentType.integer(0, LivesGroup.GREEN.getMaxLives())).executes(context ->
                         executeReset(context, IntegerArgumentType.getInteger(context, "lives"))
                 ))));

@@ -1,5 +1,6 @@
 package ayupitsali.pioneers.data;
 
+import ayupitsali.pioneers.PioneersConfig;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -22,7 +23,7 @@ public class Pioneer {
     }
 
     public Pioneer(PioneerData component, String name) {
-        this(component, name, LivesGroup.GREEN);
+        this(component, name, LivesGroup.getDefaultGroup());
     }
 
     public String getName() {
