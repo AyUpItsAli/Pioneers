@@ -3,14 +3,14 @@
 	"id": "pioneers",
 	"version": "${version}",
 	"name": "Pioneers Additions",
-	"description": "Adds custom features and game mechanics used on Pioneers SMP",
+	"description": "Adds custom features and game mechanics used on Pioneers SMP.",
 	"authors": [
 		"AyUpItsAli"
 	],
 	"contact": {
-		"homepage": "https://modrinth.com/mod/pioneers",
-		"issues": "https://github.com/AyUpItsAli/Pioneers/issues",
-		"sources": "https://github.com/AyUpItsAli/Pioneers"
+		"homepage": "https://modrinth.com/mod/pioneers-additions",
+		"issues": "https://github.com/AyUpItsAli/Pioneers-Additions/issues",
+		"sources": "https://github.com/AyUpItsAli/Pioneers-Additions"
 	},
 	"license": "ARR",
 	"icon": "assets/pioneers/icon.png",
