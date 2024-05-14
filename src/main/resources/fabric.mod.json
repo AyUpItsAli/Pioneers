@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "pioneers",
 	"version": "${version}",
-	"name": "Pioneers",
+	"name": "Pioneers Additions",
 	"description": "Adds custom features and game mechanics used on Pioneers SMP",
 	"authors": [
 		"AyUpItsAli"

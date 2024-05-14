@@ -16,7 +16,7 @@
   "commands.lives.set.success.single": "%s now has %s",
   "commands.lives.set.failure": "Pioneer not found",
   "commands.lives.reset.success": "All pioneers now have %s",
-  "pioneers.midnightconfig.title": "Pioneers",
+  "pioneers.midnightconfig.title": "Pioneers Additions",
   "pioneers.midnightconfig.category.lives": "Lives System",
   "pioneers.midnightconfig.DEFAULT_COLOUR": "Default Colour",
   "pioneers.midnightconfig.DEFAULT_COLOUR.tooltip": "Players will be set to this colour when they join the world.",

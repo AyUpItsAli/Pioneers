@@ -23,7 +23,7 @@ public class Pioneers implements ModInitializer, ScoreboardComponentInitializer 
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Initialising Pioneers!");
+		LOGGER.info("Initialising Pioneers Additions!");
 		MidnightConfig.init(MOD_ID, PioneersConfig.class);
 		CommandRegistrationCallback.EVENT.register(LivesCommand::register);
 	}
